@@ -1,0 +1,56 @@
+Updated Schema
+
+    Courses
+        course_id (PK, INT, AUTO_INCREMENT)
+        course_name (VARCHAR)
+        course_type (ENUM: 'Programming', 'English', 'Design')
+
+    CourseInstances
+        course_instance_id (PK, INT, AUTO_INCREMENT)
+        course_id (FK, INT, REFERENCES Courses(course_id))
+        start_date (DATETIME)
+        end_date (DATETIME)
+
+    Students
+        student_id (PK, INT, AUTO_INCREMENT)
+        name (VARCHAR)
+        email (VARCHAR, UNIQUE)
+
+    Groups
+        group_id (PK, INT, AUTO_INCREMENT)
+        course_instance_id (FK, INT, REFERENCES CourseInstances(course_instance_id))
+        teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
+
+    Groups_Students
+        group_id (FK, INT, REFERENCES Groups(group_id))
+        student_id (FK, INT, REFERENCES Students(student_id))
+        PRIMARY KEY (group_id, student_id)
+
+    Lessons
+        lesson_id (PK, INT, AUTO_INCREMENT)
+        course_id (FK, INT, REFERENCES Courses(course_id)) — This could also be referenced via CourseInstances.
+        lesson_title (VARCHAR)
+
+    LessonInstances
+        lesson_instance_id (PK, INT, AUTO_INCREMENT)
+        lesson_id (FK, INT, REFERENCES Lessons(lesson_id))
+        course_instance_id (FK, INT, REFERENCES CourseInstances(course_instance_id))
+        lesson_date (DATETIME)
+
+    Teachers
+        teacher_id (PK, INT, AUTO_INCREMENT)
+        name (VARCHAR)
+        email (VARCHAR, UNIQUE)
+
+    Teacher_Certifications
+        certification_id (PK, INT, AUTO_INCREMENT)
+        teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
+        course_id (FK, INT, REFERENCES Courses(course_id))
+
+    Tutors
+        teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
+        PRIMARY KEY (teacher_id)
+
+    Methodists
+        teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
+        PRIMARY KEY (teacher_id)
