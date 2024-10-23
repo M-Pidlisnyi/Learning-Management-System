@@ -5,12 +5,6 @@ Updated Schema
         course_name (VARCHAR)
         course_type (ENUM: 'Programming', 'English', 'Design')
 
-    CourseInstances
-        course_instance_id (PK, INT, AUTO_INCREMENT)
-        course_id (FK, INT, REFERENCES Courses(course_id))
-        start_date (DATETIME)
-        end_date (DATETIME)
-
     Students
         student_id (PK, INT, AUTO_INCREMENT)
         name (VARCHAR)
@@ -20,6 +14,9 @@ Updated Schema
         group_id (PK, INT, AUTO_INCREMENT)
         course_instance_id (FK, INT, REFERENCES CourseInstances(course_instance_id))
         teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
+        start_date (DATETIME)
+        end_date (DATETIME)
+
 
     Groups_Students
         group_id (FK, INT, REFERENCES Groups(group_id))
@@ -42,10 +39,6 @@ Updated Schema
         name (VARCHAR)
         email (VARCHAR, UNIQUE)
 
-    Teacher_Certifications
-        certification_id (PK, INT, AUTO_INCREMENT)
-        teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
-        course_id (FK, INT, REFERENCES Courses(course_id))
 
     Tutors
         teacher_id (FK, INT, REFERENCES Teachers(teacher_id))
