@@ -1,0 +1,18 @@
+{% extends "lmsapp/base.html" %}
+
+
+{% block content  %}
+
+
+    {{course.title}}
+    {{course.syllabus}}
+    {% for module in modules %}
+        {{module}}
+        <br>
+        {% for lesson in module.lessons.all %}
+        <a href="{{lesson.get_absolute_url}}" >{{lesson}}<br></a>
+        {% endfor %}
+    {% endfor  %}
+
+
+{% endblock  %}

@@ -25,12 +25,31 @@ class Course(models.Model):
         "eng": "English"
     }
 
-    name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     syllabus = models.TextField(verbose_name="Course description")
     course_type = models.CharField(choices = COURSE_TYPES, max_length=3)
 
     def __str__(self):
-        return self.name
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("course-detail", kwargs={"pk": self.pk})
+
+class Module(models.Model):
+    subject = models.CharField(max_length=50)
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,
+                               related_name="modules")
+
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["course", "order"]
+        unique_together = ["order", "course"]
+
+    def __str__(self):
+        return f"{self.course}. M{self.order}. {self.subject}"
+
 
 class Group(models.Model):
     '''
@@ -58,6 +77,8 @@ class Group(models.Model):
     def get_absolute_url(self):
         return reverse("group-detail", kwargs={"pk":self.pk})
 
+    def __str__(self):
+        return self.codename
 
 
 class Student(models.Model):
@@ -83,11 +104,20 @@ class Lesson(models.Model):
         that student can recieve as part of a group
     '''
     subject = models.CharField(max_length=100)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="lessons")
-    lesson_number = models.IntegerField()
+    module = models.ForeignKey(Module, on_delete=models.CASCADE,
+                               related_name="lessons")
+    order_in_module = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.course.name}. L{self.lesson_number} Subject: {self.subject}"
+        return f"{self.module.course.title}.M{self.module.order}L{self.order_in_module} Subject: {self.subject}"
+
+    def get_absolute_url(self):
+        return reverse("lesson", kwargs={"pk": self.pk})
+
+    class Meta:
+        ordering = ["module__course","module", "order_in_module"]
+        unique_together = ["order_in_module", "module"]
+
 
 
 class LessonInstance(models.Model):

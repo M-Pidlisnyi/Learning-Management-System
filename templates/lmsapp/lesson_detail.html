@@ -1,0 +1,12 @@
+{% extends 'lmsapp/base.html' %}
+
+
+{% block content  %}
+
+    {{lesson.subject}}
+     <a href="{{lesson.module.course.get_absolute_url}}">{{lesson.module.course}}</a>
+    {{lesson.module}}
+
+
+{% endblock %}
+

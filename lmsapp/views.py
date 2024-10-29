@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.views.generic import ListView, DetailView
 
-from .models import Group, Student
+from .models import Group, Student, Lesson, Course
 
 def index(req):
     return render(req, "lmsapp/base.html")
@@ -21,3 +21,19 @@ class GroupDetailView(DetailView):
 
 class StudentDetailView(DetailView):
     model = Student
+
+
+class CourseDetailView(DetailView):
+    model = Course
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        modules  = self.object.modules.all()
+        context["modules"] = modules
+        context["lessons"] = Lesson.objects.filter(module__in=modules)
+
+        return context
+
+class LessonDetailView(DetailView):
+    model = Lesson

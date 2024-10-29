@@ -5,7 +5,7 @@
 
     {% for group in object_list  %}
         
-        {{group}}
+        <a href="{{group.get_absolute_url}}">{{group}}</a>
     
     {% endfor %}
 

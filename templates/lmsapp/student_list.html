@@ -5,7 +5,7 @@
 
     {% for student in object_list  %}
         
-        {{student}}
+         <a href="{{student.get_absolute_url}}">{{student}}</a>
     
     {% endfor %}
 
