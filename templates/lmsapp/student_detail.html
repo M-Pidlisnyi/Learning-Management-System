@@ -1,0 +1,13 @@
+{% extends 'lmsapp/base.html' %}
+
+
+{% block content  %}
+
+    {{student.name}}
+    {{student.age}}
+    {% for group in student.groups.all %}
+        <a href="{{group.get_absolute_url}}">{{group.codename}}</a>
+    {% endfor %}
+
+{% endblock %}
+

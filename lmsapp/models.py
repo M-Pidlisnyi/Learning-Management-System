@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 
 
@@ -55,6 +55,10 @@ class Group(models.Model):
     usual_time = models.TimeField()
     start_date = models.DateTimeField(null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse("group-detail", kwargs={"pk":self.pk})
+
+
 
 class Student(models.Model):
     '''
@@ -68,6 +72,10 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+
+    def get_absolute_url(self):
+        return reverse("student-detail", kwargs={"pk":self.pk})
 
 class Lesson(models.Model):
     '''

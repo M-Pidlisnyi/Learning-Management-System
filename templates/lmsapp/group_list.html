@@ -1,0 +1,12 @@
+{% extends 'lmsapp/base.html'  %}
+
+
+{% block content %}
+
+    {% for group in object_list  %}
+        
+        {{group}}
+    
+    {% endfor %}
+
+{% endblock %}
