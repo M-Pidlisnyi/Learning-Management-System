@@ -37,3 +37,6 @@ class CourseDetailView(DetailView):
 
 class LessonDetailView(DetailView):
     model = Lesson
+
+class CourseListView(ListView):
+    model = Course

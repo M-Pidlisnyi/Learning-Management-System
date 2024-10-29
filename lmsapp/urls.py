@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (index,
                     GroupListView, StudentListView,
                     StudentDetailView, GroupDetailView,
-                    CourseDetailView, LessonDetailView)
+                    CourseDetailView, LessonDetailView,
+                    CourseListView)
 
 
 urlpatterns = [
@@ -13,5 +14,6 @@ urlpatterns = [
     path("student/<int:pk>", StudentDetailView.as_view(), name="student-detail"),
     path("course/<int:pk>", CourseDetailView.as_view(), name="course-detail"),
     path("lesson/<int:pk>", LessonDetailView.as_view(), name="lesson"),
+    path("course/", CourseListView.as_view(), name="course-list"),
 
 ]

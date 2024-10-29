@@ -1,0 +1,12 @@
+{% extends 'lmsapp/base.html'  %}
+
+
+{% block content %}
+
+    {% for course in object_list  %}
+        
+        <a href="{{course.get_absolute_url}}">{{course}}</a>
+    
+    {% endfor %}
+
+{% endblock %}
