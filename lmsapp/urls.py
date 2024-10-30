@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (index,
+from .views import (index, schedule,
                     GroupListView, StudentListView,
                     StudentDetailView, GroupDetailView,
                     CourseDetailView, LessonDetailView,
@@ -8,6 +8,7 @@ from .views import (index,
 
 urlpatterns = [
     path("", index, name="index"),
+    path("schedule/", schedule, name="schedule"),
     path("group/", GroupListView.as_view(), name="group-list"),
     path("student/", StudentListView.as_view(), name="student-list"),
     path("group/<int:pk>", GroupDetailView.as_view(), name="group-detail"),

@@ -6,10 +6,42 @@
     {{group.codename}}
      <a href="{{group.course.get_absolute_url}}">{{group.course}}</a>
     {{group.teacher}}
-    <br>
+    {{group.start_date}}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Students</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="lessons-tab" data-bs-toggle="tab" data-bs-target="#lessons" type="button" role="tab" aria-controls="profile" aria-selected="false">Lessons</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Progress</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     {% for student in group.student_set.all %}
         <a href="{{student.get_absolute_url}}">{{student}}</a>
     {% endfor %}
+</div>
+  <div class="tab-pane fade" id="lessons" role="tabpanel" aria-labelledby="profile-tab">
+      <p>Lessons</p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="group_id" value="{{group.id}}">
+            <input type="submit" value="Refresh Lessons" class="btn btn-primary">
+        </form>
+        <div>
+            {% for lesson in group.lessoninstance_set.all %}
+                <p>
+                {{forloop.counter}} {{lesson.lesson.subject}} {{lesson.datetime}}
+                </p>
+            {% endfor %}
+        </div>
+  </div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Progress</div>
+</div>
+
 
 
 {% endblock %}
