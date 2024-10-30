@@ -8,5 +8,6 @@
         <a href="{{group.get_absolute_url}}">{{group}}</a>
     
     {% endfor %}
-
+    <br>
+    <a href="{% url 'group-create' %}" class="btn btn-primary" >New group</a>
 {% endblock %}

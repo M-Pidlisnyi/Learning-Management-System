@@ -70,8 +70,8 @@ class Group(models.Model):
     codename   = models.CharField(max_length=50)
     course     = models.ForeignKey(Course, on_delete=models.PROTECT)
     teacher    = models.ForeignKey(Teacher, on_delete=models.PROTECT)
-    usual_day  = models.CharField(max_length=3, choices=DAY_OF_WEEK)
-    usual_time = models.TimeField()
+    usual_day  = models.CharField(max_length=3, choices=DAY_OF_WEEK, null=True, blank=True)
+    usual_time = models.TimeField(null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
 
     def get_absolute_url(self):
