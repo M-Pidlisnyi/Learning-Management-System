@@ -130,3 +130,8 @@ class LessonInstance(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True)
 
+    def __lt__(self, other):
+        return self.datetime < other.datetime
+
+    def __gt__(self, other):
+        return self.datetime > other.datetime

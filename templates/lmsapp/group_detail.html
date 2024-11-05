@@ -2,11 +2,12 @@
 
 
 {% block content  %}
-
+    <a href="{% url 'group-update' group.id%}"><button class="btn btn-primary">Update </button></a>
     {{group.codename}}
      <a href="{{group.course.get_absolute_url}}">{{group.course}}</a>
     {{group.teacher}}
     {{group.start_date}}
+    Next lesson: {{group.next_lesson}}
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Students</button>

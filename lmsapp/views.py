@@ -1,8 +1,9 @@
-from datetime import timedelta
+from datetime import timezone, timedelta, datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.db.models import Min
 
 from .models import Group, Student, Lesson, Course, LessonInstance
 from .forms import GroupForm
@@ -11,9 +12,16 @@ def index(req:HttpRequest):
     return render(req, "lmsapp/base.html")
 
 def schedule(req:HttpRequest):
-    raise NotImplementedError
+    scheduled_groups = Group.objects.filter(start_date__isnull=False)
 
-    return render(req, "lmsapp/schedule.html")
+    for group in scheduled_groups:
+        next_lesson = min(
+            (li for li in group.lessoninstance_set.all()
+            if li.datetime > datetime.now(timezone.utc)),
+            default=None)
+        group.next_lesson = next_lesson
+
+    return render(req, "lmsapp/schedule.html", {"groups": scheduled_groups})
 
 class GroupListView(ListView):
     model = Group
@@ -24,7 +32,19 @@ class StudentListView(ListView):
 class GroupDetailView(DetailView):
     model = Group
 
+    def get_object(self):
+        obj = super().get_object()
+        next_lesson = min(
+            (li.datetime for li in obj.lessoninstance_set.all()
+            if li.datetime > datetime.now(timezone.utc)),
+            default=None)
+        obj.next_lesson = next_lesson
+        return obj
+
     def post(self, req:HttpRequest, *args, **kwargs):
+        """
+        send POST request to the server by pressing 'Refresh Lessons" button'
+        """
         group_id = int(req.POST.get("group_id", ""))
         group = get_object_or_404(Group, pk=group_id)
         course = group.course
@@ -52,10 +72,10 @@ class GroupCreateView(CreateView):
     model = Group
     form_class = GroupForm
 
-    def get_initial(self):
-        codename = "123"
-        return {"codename":codename}
 
+class GroupUpdateView(UpdateView):
+    model = Group
+    form_class = GroupForm
 
 class StudentDetailView(DetailView):
     model = Student

@@ -1,0 +1,16 @@
+{% extends 'lmsapp/base.html'  %}
+
+
+{% block content %}
+
+    {% for group in groups  %}
+        
+    <p>
+        {{group.next_lesson.datetime}}|
+        <a href="{{group.get_absolute_url}}">{{group}}</a>|
+        {{group.next_lesson.lesson.subject}}|
+    </p>
+    
+    {% endfor %}
+    <br>
+{% endblock %}
