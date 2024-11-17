@@ -14,5 +14,6 @@ urlpatterns = [
     path("course/", views.CourseListView.as_view(), name="course-list"),
     path("group/create/", views.GroupCreateView.as_view(), name="group-create"),
     path("group/update/<int:pk>", views.GroupUpdateView.as_view(), name="group-update"),
+    path("lesson-instance/update/<int:l_instance_id>", views.update_instance, name="update-instance"),
 
 ]

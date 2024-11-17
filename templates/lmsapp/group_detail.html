@@ -27,18 +27,18 @@
 </div>
   <div class="tab-pane fade" id="lessons" role="tabpanel" aria-labelledby="profile-tab">
       <p>Lessons</p>
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="group_id" value="{{group.id}}">
-            <input type="submit" value="Refresh Lessons" class="btn btn-primary">
-        </form>
-        <div>
-            {% for lesson in group.lessoninstance_set.all %}
-                <p>
-                {{forloop.counter}} {{lesson.lesson.subject}} {{lesson.datetime}}
-                </p>
-            {% endfor %}
-        </div>
+            <div>
+                {% for lesson in group.lessoninstance_set.all %}
+                    <p>
+                        <form method="post" action="{% url 'update-instance' lesson.pk  %}" id="update-form-{{ lesson.pk }}">
+                            {%csrf_token%}
+                            {{forloop.counter}} {{lesson.lesson.subject}}
+                            <input type="datetime-local" name="new_datetime" value="{{lesson.datetime|date:'Y-m-d\TH:i'}}"> <input type="submit" value="save" class="btn btn-warning">
+                            <input type="hidden" name="confirmation_response" id="confirmation_response_{{ lesson.pk }}">
+                        </form>
+                    </p>
+                {% endfor %}
+            </div>
   </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Progress</div>
 </div>

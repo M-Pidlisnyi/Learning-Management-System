@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+
+from datetime import timedelta
 # Create your models here.
 
 
@@ -79,6 +81,31 @@ class Group(models.Model):
 
     def __str__(self):
         return self.codename
+
+    def save(self, *args, **kwargs):
+        super().save(args, kwargs)
+        # lessons_list = Lesson.objects.filter(module__in=self.course.modules.all())
+        # lesson_instances = []
+
+        # for lesson in lessons_list:
+        #     instance, created = LessonInstance.objects.get_or_create(
+        #         lesson = lesson,
+        #         group = self
+        #     )
+        #     lesson_instances.append(instance)
+        # #probably should move this to Create View to ensure it is only called once
+        # #and update dates of consequent lessons through separate script, maybe signal
+        # if self.start_date is not None:
+        #     lesson_instances[0].datetime = self.start_date
+        #     lesson_instances[0].save()
+        #     for i in range(1, len(lesson_instances)):
+        #         new_datatime = lesson_instances[i-1].datetime + timedelta(days=7)
+        #         lesson_instances[i].datetime =  new_datatime
+        #         lesson_instances[i].save()
+
+
+
+
 
 
 class Student(models.Model):
