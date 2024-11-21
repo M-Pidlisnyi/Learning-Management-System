@@ -7,10 +7,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item my-nav-item"><a href="{% url 'schedule'  %}"><span>Schedule </span></a></li>
-                <li class="nav-item my-nav-item"><a href="{% url 'group-list'  %}"></i> <span>Groups </span></a></li>
-                <li class="nav-item my-nav-item"><a href="{% url 'student-list'  %}"><span>Students </span></a></li>
-                <li class="nav-item my-nav-item"><a href="{% url 'course-list'  %}"><span>Courses </span></a></li>
+          <li class="nav-item my-nav-item"><a href="{% url 'group-list'  %}"></i> <span>Groups </span></a></li>
+          <li class="nav-item my-nav-item"><a href="{% url 'student-list'  %}"><span>Students </span></a></li>
+          <li class="nav-item my-nav-item"><a href="{% url 'course-list'  %}"><span>Courses </span></a></li>
+          {% if user.is_authenticated %}
+          <span>Welcome, {{user.username}}</span>
+          <form method="post" action="{%url 'logout'%}">
+            {%csrf_token%}
+            <input type="submit" value="Logout">
+          </form>
+          {%else%}
+            <li class="nav-item my-nav-item"> <a href="{%url 'login'%}">Login</a></li>
+            <li class="nav-item my-nav-item"> <a href="{%url 'signup'%}">Sign up</a></li>
+          {%endif%}
       </ul>
+
+
     </div>
   </div>
 </nav>
