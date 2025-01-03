@@ -99,24 +99,7 @@ class LessonDetailView(DetailView):
 class CourseListView(ListView):
     model = Course
 
-def update_instance(request:HttpRequest, l_instance_id):
-    if request.method == "GET":
-        return HttpResponse(content="405 method not allowed", status=405)
+def update_instance_datetime(req: HttpRequest, instance_id):
+    if req.method != "POST":
+        return HttpResponse(content="Method not allowed", status=405)
 
-    instance = LessonInstance.objects.get(id=l_instance_id)
-    new_datetime = request.POST.get("new_datetime", None)
-    if new_datetime:
-        instance.datetime = new_datetime
-        instance.save()
-
-        confirm =  request.POST.get("confirmation_response", "")
-        if confirm == "yes":
-            lessons_to_update = LessonInstance.objects.filter(datetime__gte=instance.datetime)
-            for i in range(1,len(lessons_to_update)):
-                new_datetime = lessons_to_update[i-1].datetime + timedelta(days=7)
-                print(new_datetime)
-                lessons_to_update[i].datetime = new_datetime
-                lessons_to_update[i].save()
-
-
-    return redirect(reverse("group-detail", kwargs={"pk":instance.group.id}))

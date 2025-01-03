@@ -30,12 +30,9 @@
             <div>
                 {% for lesson in group.lessoninstance_set.all %}
                     <p>
-                        <form method="post" action="{% url 'update-instance' lesson.pk  %}" id="update-form-{{ lesson.pk }}">
-                            {%csrf_token%}
-                            {{forloop.counter}} {{lesson.lesson.subject}}
-                            <input type="datetime-local" name="new_datetime" value="{{lesson.datetime|date:'Y-m-d\TH:i'}}"> <input type="submit" value="save" class="btn btn-warning">
-                            <input type="hidden" name="confirmation_response" id="confirmation_response_{{ lesson.pk }}">
-                        </form>
+                        {{forloop.counter}} {{lesson.lesson.subject}}
+                        {{lesson.datetime|date:'Y-m-d H:i'}}                            
+                        <a href="{% url 'instance-update' lesson.id %}">upd</a>
                     </p>
                 {% endfor %}
             </div>
